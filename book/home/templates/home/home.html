@@ -1,0 +1,17 @@
+{% extends 'home/base.html' %}
+{% block body %}
+    <div class="container " style="padding-top: 70px">
+        <div class="row justify-content-md-center">
+
+            {% if user.is_authenticated %}
+            <div class="col-8 btn btn-primary btn-lg btn-block " style="margin-bottom: 20px;"><a href="{% url 'phones:phone-book' %}" style="color: indigo;text-decoration: none";>Phone Book</a></div>
+            <div  class="col-8 btn btn-primary btn-lg btn-block " style="margin-bottom: 20px;"><a href="{% url 'phones:search-phone' %}" style="color: indigo;text-decoration: none;">Search</a></div>
+            <div  class="col-8 btn btn-primary btn-lg btn-block " style="margin-bottom: 20px;"><a href="{% url 'phones:creat-phone' %}" style="color: indigo;text-decoration: none;">Creat</a></div>
+            <div  class="col-8 btn btn-primary btn-lg btn-block " style="margin-bottom: 20px;"><a href="{% url 'user:logout' %}" style="color: indigo;text-decoration: none;">Logout</a></div>
+            {% endif %}
+            {% if not user.is_authenticated %}
+            <div  class="col-8 btn btn-primary btn-lg btn-block " style="margin-bottom: 20px;"><a href="{% url 'user:login' %}" style="color: indigo;text-decoration: none;">Login</a></div>
+            {% endif %}
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'home/base.html' %}
+{% load widget_tweaks %}
+{% block body %}
+    <form method="post">
+    <div class="container">
+        {% csrf_token %}
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+        {% for fild in form %}
+            <div class="form-group">
+                {{ fild.label }}:
+                {{ fild|add_class:"form-control" }}
+            </div>
+
+        {% endfor %}
+            <button type="submit" class="btn btn-primary">login</button>
+    </form>
+</div>
+
+
+{% endblock %}

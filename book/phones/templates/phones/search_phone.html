@@ -1,0 +1,83 @@
+{% extends 'home/base.html' %}
+{% block body %}
+<div class="container">
+
+<form class="form-inline">
+    <div class="row">
+      <div class="form-group col">
+    <label for="exampleInputEmail1">Phone Number</label>
+    <input type="text" class="form-control" id="number" maxlength="11">
+  </div>
+  <div class="form-group col">
+    <label>Type of search</label>
+    <select class="form-control" id="type">
+      <option value="exact">Exact</option>
+      <option value="first">Start at First</option>
+      <option value="end">Start at End</option>
+      <option value="cont">contains</option>
+    </select>
+  </div>
+        </div>
+</form>
+<div class="container" style="padding-top: 25px">
+    <div class="row">
+<button type="button" id="search" class="btn btn-primary btn-block ">search</button>
+        </div>
+    <table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Phone Number</th>
+    </tr>
+  </thead>
+        <tbody id="output-div">
+
+          </tbody>
+</table>
+
+</div>
+    </div>
+<div ></div>
+{% endblock %}
+{% block js %}
+<script>
+$(document).ready(function (){
+    $("#search").click(function (){
+        var regex = new RegExp('^[0-9]+$');
+        var phone= $("#number").val()
+        if(!regex.test(phone)){
+            alert("wrong phone number");
+            return 0
+        }
+        else {
+            $("#output-div").empty()
+            var type=$('#type').find(":selected").val();
+            $.ajax({
+                method:"GET",
+                url:"{% url 'phones:search-phone' %}",
+                data:{
+                    phone:phone,
+                    type:type,
+                },
+               success: function (response) {
+                    var my_output_div = $('#output-div');
+                    $(response.results).each(function (index, obj){
+
+                        {#var my_table = '<tr><td>'+obj.name+'</td></tr>';#}
+                        var my_table = '<tr>'+
+                                        '<th scope="row">'+index+'</th>'+
+                                        '<td>'+obj.name+'</td>'+
+                                        '<td>'+obj.last+'</td>'+
+                                        '<td>'+obj.phone_number+'</td>'
+                                       +'</tr>' ;
+                        my_output_div.append(my_table);
+                    });
+                }
+            })
+        }
+    })
+})
+</script>
+{% endblock %}
